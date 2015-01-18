@@ -64,6 +64,9 @@ int main()
     L1.AddToHead(5);
 
     L1.Print();
+
+    L1.RemoveFromHead();
+    L1.Print();
     return 0;
 }
 
@@ -75,13 +78,11 @@ void SinglyLinkedList::AddToHead(int data){
 } // END AddToHead()
 // Remove Node from head of linked list
 void SinglyLinkedList::RemoveFromHead(){
-    if(IsEmpty()){
+    if(Head == Tail){
         cout << "List is already empty" << endl;
     }
     else{
-        Node *tmp = Head;
-        Head = tmp->Next;
-        delete tmp;
+        Head = Head->Next;
     }
 }// END RemoveFromHead()
 // Print full linked list
@@ -91,5 +92,6 @@ void SinglyLinkedList::Print(){
         cout << tmp->Data << " -> ";
         tmp = tmp->Next;
     }while(tmp != NULL);
+    cout << endl;
     delete tmp;
 }// END Print()
