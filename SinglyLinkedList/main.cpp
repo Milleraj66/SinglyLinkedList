@@ -27,7 +27,8 @@ class SinglyLinkedList{
     public:
         // Constructor
         SinglyLinkedList(){
-            Head = Tail = NULL;
+            Head = NULL;
+            Tail = NULL;
         }
         // Destructor
         ~SinglyLinkedList(){
@@ -39,11 +40,8 @@ class SinglyLinkedList{
         }
 
         // Methods
-        bool IsEmpty(){
-            if(Head == Tail == 0)
-                return true;
-            else
-                return false;
+        int IsEmpty(){
+            return Head==0;
         }
         void AddToHead(int data);
         void RemoveFromHead();
@@ -57,7 +55,10 @@ int main()
 {
     SinglyLinkedList L1;
 
+    cout << L1.IsEmpty() << endl;
+
     L1.AddToHead(1);
+    cout << L1.IsEmpty() << endl;
     L1.AddToHead(2);
     L1.AddToHead(3);
     L1.AddToHead(4);
@@ -66,7 +67,24 @@ int main()
     L1.Print();
 
     L1.RemoveFromHead();
+    L1.AddToHead(10);
     L1.Print();
+
+    L1.RemoveFromHead();
+    L1.Print();
+    L1.RemoveFromHead();
+    cout << L1.IsEmpty() << endl;
+    L1.Print();
+    L1.RemoveFromHead();
+    L1.Print();
+    cout << L1.IsEmpty() << endl;
+    L1.RemoveFromHead();
+    L1.Print();
+    L1.RemoveFromHead();
+    cout << " HEY " << endl;
+    L1.Print();
+
+    cout << L1.IsEmpty() << endl;
     return 0;
 }
 
@@ -78,9 +96,18 @@ void SinglyLinkedList::AddToHead(int data){
 } // END AddToHead()
 // Remove Node from head of linked list
 void SinglyLinkedList::RemoveFromHead(){
-    if(Head == Tail){
-        cout << "List is already empty" << endl;
+
+    if (Head == NULL && Tail == NULL){
+            cout << "List is already empty" << endl;
+
     }
+    // If only one node left point head and tail to NULL to empty list
+    else if(Head == Tail){
+        //cout << "List is already empty" << endl;
+        Head = NULL;
+        Tail = NULL;
+    }
+    // Point Head to Head-> next effectively removing the head of the linked list
     else{
         Head = Head->Next;
     }
@@ -89,8 +116,15 @@ void SinglyLinkedList::RemoveFromHead(){
 void SinglyLinkedList::Print(){
     Node *tmp = Head;
     do {
-        cout << tmp->Data << " -> ";
-        tmp = tmp->Next;
+        // If list is empty cant use tmp->next must print that list is empty
+        if(IsEmpty()){
+            cout << "Nothing to see here... Move along\n";
+        }
+        else{
+            cout << tmp->Data << " -> ";
+            tmp = tmp->Next;
+        }
+
     }while(tmp != NULL);
     cout << endl;
     delete tmp;
