@@ -32,19 +32,28 @@ class SinglyLinkedList{
         }
         // Destructor
         ~SinglyLinkedList(){
+            for(Node *p; !IsEmpty();){
+                p = Head->Next;
+                delete Head;
+                Head = p;
+            }
+            /*
+
             while(!IsEmpty()){
                 Node *p = Head->Next;
                 delete Head;
                 Head = p;
-            }
+            }*/
         }
 
         // Methods
         int IsEmpty(){
-            return Head==0;
+            return Tail==0;
         }
         void AddToHead(int data);
         void RemoveFromHead();
+        void AddToTail(int data);
+        void RemoveFromTail();
         void Print(); // print out fill list
 
 
@@ -83,6 +92,22 @@ int main()
     L1.RemoveFromHead();
     cout << " HEY " << endl;
     L1.Print();
+    L1.AddToHead(1);
+    cout << L1.IsEmpty() << endl;
+    L1.AddToHead(2);
+    L1.AddToHead(3);
+    L1.AddToHead(4);
+    L1.AddToHead(5);
+    L1.Print();
+
+
+
+    L1.AddToTail(15);
+    L1.Print();
+    L1.AddToHead(10);
+    L1.Print();
+    L1.RemoveFromTail();
+    L1.Print();
 
     cout << L1.IsEmpty() << endl;
     return 0;
@@ -98,7 +123,7 @@ void SinglyLinkedList::AddToHead(int data){
 void SinglyLinkedList::RemoveFromHead(){
 
     if (Head == NULL && Tail == NULL){
-            cout << "List is already empty" << endl;
+            cout << "Nothing to remove from head, the list is empty\n";
 
     }
     // If only one node left point head and tail to NULL to empty list
@@ -129,3 +154,43 @@ void SinglyLinkedList::Print(){
     cout << endl;
     delete tmp;
 }// END Print()
+// Add node to linked list to the Tail pointer
+void SinglyLinkedList::AddToTail(int data){
+    // if list is not empty
+    if(Tail != NULL){
+        Tail->Next = new Node(data,NULL);
+        Tail = Tail->Next;
+    }
+    // else list is empty so both head and tail point to new node
+    else{
+        Tail = new Node(data,NULL);
+        Head = Tail;
+    }
+}// END AddToTail(int)
+// Remove node of linked list from the tail
+void SinglyLinkedList::RemoveFromTail(){
+    // If list is empty, print to screen EMPTY
+    if(Head == NULL && Tail == NULL){
+        cout << "Nothing to remove from tail, the list is empty\n";
+    }
+    // If only one node left, point Head and Tail to NULL, which means empty list
+    else if(Head == Tail){
+        Head = NULL;
+        Tail = NULL;
+    }
+    // If more than one node, first traverse list until second to last node is found
+    // set temp node = to this value so that you can point the Tail pointer to it and
+    // effectivley cut off the the last node from the list
+    else{
+        Node *tmp = Head;
+        // find node before Tail
+        while(tmp->Next != Tail){
+            //cout << "before: " << tmp->Data;
+            tmp = tmp->Next;
+            //cout << "after: " << tmp->Data;
+        }
+        delete Tail;
+        Tail = tmp;
+        Tail->Next = NULL;
+    }
+}// END RemoveFromTail()
